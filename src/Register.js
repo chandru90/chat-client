@@ -8,13 +8,13 @@ const Register = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3001/api/auth/register", {
+      await axios.post("https://chat-app-yip9.onrender.com/api/auth/register", {
         username,
         password,
       });
-     
+
       const response = await axios.post(
-        "http://localhost:3001/api/auth/login",
+        "https://chat-app-yip9.onrender.com/api/auth/login",
         { username, password }
       );
       setUser({ token: response.data.token, username });

@@ -9,7 +9,7 @@ const Login = ({ setUser }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/login",
+        "https://chat-app-yip9.onrender.com/api/auth/login",
         { username, password }
       );
       setUser({ token: response.data.token, username });
