@@ -52,7 +52,7 @@ const App = () => {
             onClick={toggleForm}
             className="w-full py-2 rounded-lg border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition duration-200"
           >
-            {isLogin ? "Create a new account" : "Already have an account? Login"}
+            {isLogin ? "create  new account" : "Already have an account? Login"}
           </button>
         </div>
       ) : (
