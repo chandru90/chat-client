@@ -1,39 +1,72 @@
 import React, { useState } from "react";
-import Login from "./Login";
-import Register from "./Register";
-import Chat from "./Chat";
-import "./App.css"; 
-const App = () => {
-  const [user, setUser] = useState(null);
-  const [isLogin, setIsLogin] = useState(true);
+import axios from "axios";
 
-  const toggleForm = (e) => {
-    e.preventDefault(); // Prevent the default anchor link behavior
-    setIsLogin(!isLogin);
+const Login = ({ setUser }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "https://chat-app-yip9.onrender.com/api/auth/login",
+        {
+          username,
+          password,
+        }
+      );
+
+      console.log("LOGIN SUCCESS:", response.data);
+
+      localStorage.setItem("token", response.data.token);
+
+      setUser({
+        token: response.data.token,
+        username,
+      });
+
+    } catch (error) {
+      console.error("ERROR:", error);
+
+      // CORS OR NETWORK ERROR
+      if (!error.response) {
+        setErrorMsg("CORS error or server not reachable");
+        return;
+      }
+
+      if (error.response.status === 401) {
+        setErrorMsg("Invalid username or password");
+      } else {
+        setErrorMsg("Server error");
+      }
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {!user ? (
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
-          {isLogin ? (
-            <Login setUser={setUser} />
-          ) : (
-            <Register setUser={setUser} />
-          )}
-          <a
-            href="#"
-            className="text-blue-500 hover:underline mt-4 block text-center"
-            onClick={toggleForm}
-          >
-            {isLogin ? "Switch to Register" : "Switch to Login"}
-          </a>
-        </div>
-      ) : (
-        <Chat user={user} />
-      )}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <h2>Login</h2>
+
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button type="submit">Login</button>
+
+      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+    </form>
   );
 };
 
-export default App;
+export default Login;
