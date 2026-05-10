@@ -1605,7 +1605,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import MessageInput from "./MessageInput";
 
-const socket = io("http://localhost:3001");
+const socket = io("https://chat-app-yip9.onrender.com");
 
 const Chat = ({ user, friend, setFriend }) => {
   const [messages, setMessages] = useState([]);
@@ -1622,7 +1622,7 @@ const Chat = ({ user, friend, setFriend }) => {
     socket.emit("registerUser", user.username);
 
     axios
-      .get("http://localhost:3001/api/auth/active-users")
+      .get("https://chat-app-yip9.onrender.com/api/auth/active-users")
       .then((res) => setUsers(res.data))
       .catch(console.error);
 
