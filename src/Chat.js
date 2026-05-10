@@ -1605,7 +1605,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import MessageInput from "./MessageInput";
 
-const socket = io("https://chat-app-yip9.onrender.com");
+const socket = io("http://localhost:3001");
 
 const Chat = ({ user, friend, setFriend }) => {
   const [messages, setMessages] = useState([]);
@@ -1622,7 +1622,7 @@ const Chat = ({ user, friend, setFriend }) => {
     socket.emit("registerUser", user.username);
 
     axios
-      .get("https://chat-app-yip9.onrender.com/api/auth/active-users")
+      .get("http://localhost:3001/api/auth/active-users")
       .then((res) => setUsers(res.data))
       .catch(console.error);
 
@@ -1693,7 +1693,7 @@ const Chat = ({ user, friend, setFriend }) => {
     if (!orderPreview?.items) return 0;
 
     return orderPreview.items.reduce(
-      (sum, item) => sum + Math.round(item.price * item.quantity*10),
+      (sum, item) => sum + Math.round(item.price * item.quantity*10) ,
       0
     );
   };
